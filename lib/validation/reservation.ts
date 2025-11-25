@@ -4,7 +4,6 @@ export const autoReservationSchema = z.object({
     date: z.string().min(1, 'La fecha es obligatoria'),
     time: z.string().min(1, 'La hora es obligatoria'),
     people: z
-        .coerce
         .number()
         .int()
         .min(1, { message: 'Mínimo 1 persona' })
