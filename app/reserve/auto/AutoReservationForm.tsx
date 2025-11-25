@@ -5,7 +5,7 @@ import { useSearchParams, useRouter } from 'next/navigation';
 import type { AutoReservationInput } from '@/lib/validation/reservation';
 
 type Props = {
-    onSubmit: (values: AutoReservationInput) => Promise<{ ok: boolean }>;
+    onSubmit: (values: AutoReservationInput) => Promise<{ ok: boolean; error?: string}>;
 };
 
 export function AutoReservationForm({ onSubmit }: Props) {
@@ -35,7 +35,8 @@ export function AutoReservationForm({ onSubmit }: Props) {
             const result = await onSubmit(values);
 
             if (!result.ok) {
-                router.push('/reserve/auto?error=1');
+                const errorMessage = result.error || '1';
+                router.push(`/reserve/auto?error=${encodeURIComponent(errorMessage)}`);
             } else {
                 router.push('/reserve/auto?success=1');
                 form.reset();
@@ -49,7 +50,9 @@ export function AutoReservationForm({ onSubmit }: Props) {
 
             {errorParam && (
                 <p className="text-sm text-red-600">
-                    Ha habido un error al crear la reserva. Inténtalo de nuevo.
+                    {errorParam === '1'
+                        ? 'Ha habido un error al crear la reserva. Inténtalo de nuevo.'
+                        : errorParam}
                 </p>
             )}
             {successParam && (

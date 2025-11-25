@@ -1,7 +1,7 @@
+import { Suspense } from "react";
 import { AutoReservationForm } from './AutoReservationForm';
 import { createAutoReservation } from './actions';
 import type { AutoReservationInput } from '@/lib/validation/reservation';
-import { Suspense } from "react";
 
 async function handleSubmitServer(values: AutoReservationInput) {
     'use server';
@@ -17,7 +17,7 @@ async function handleSubmitServer(values: AutoReservationInput) {
 
     const result = await createAutoReservation(formData);
 
-    return { ok: result.ok };
+    return { ok: result.ok, error: result.error };
 }
 
 export default function AutoReservationPage() {

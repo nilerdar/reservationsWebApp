@@ -17,32 +17,22 @@ export const autoReservationSchema = z.object({
     email: z
         .string()
         .email('Email no válido')
-        .optional()
         .or(z.literal('').transform(() => undefined)),
     notes: z
         .string()
         .max(500, 'Máximo 500 caracteres')
         .optional()
         .or(z.literal('').transform(() => undefined)),
-}).superRefine((val, ctx) =>{
-    const dateTimeStr = `${val.date}T${val.time}`;
-    const dateTime = new Date(dateTimeStr);
+}).superRefine((val, ctx) => {
+    // Comprobar solo que el día no sea anterior a hoy (en UTC)
+    if (!val.date) return;
 
-    if (Number.isNaN(dateTime.getTime())) {
+    const todayStr = new Date().toISOString().slice(0, 10); // "YYYY-MM-DD"
+
+    if (val.date < todayStr) {
         ctx.addIssue({
             code: z.ZodIssueCode.custom,
-            message: 'Fecha u hora no válidas',
-            path: ['date'],
-        });
-        return;
-    }
-
-    const now = new Date();
-
-    if (dateTime < now) {
-        ctx.addIssue({
-            code: z.ZodIssueCode.custom,
-            message: 'No puedes reservar en el pasado',
+            message: 'No puedes reservar en días pasados',
             path: ['date'],
         });
     }

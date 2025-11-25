@@ -13,13 +13,13 @@ const resend = resendApiKey ? new Resend(resendApiKey) : null;
 export async function createAutoReservation(formData: FormData) {
     // 1) Mapear FormData -> objeto plano
     const raw = {
-        date: formData.get('date'),
-        time: formData.get('time'),
-        people: formData.get('people'),
-        name: formData.get('name'),
-        phone: formData.get('phone'),
-        email: formData.get('email'),
-        notes: formData.get('notes'),
+        date: String(formData.get('date') ?? ''),
+        time: String(formData.get('time') ?? ''),
+        people: Number(formData.get('people') ?? 0),
+        name: String(formData.get('name') ?? ''),
+        phone: (formData.get('phone') as string) ?? undefined,
+        email: (formData.get('email') as string) ?? undefined,
+        notes: (formData.get('notes') as string) ?? undefined,
     };
 
     // 2) Validar con Zod en el servidor
