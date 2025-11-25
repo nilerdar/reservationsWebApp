@@ -16,8 +16,7 @@ export const autoReservationSchema = z.object({
         .or(z.literal('').transform(() => undefined)),
     email: z
         .string()
-        .email('Email no válido')
-        .or(z.literal('').transform(() => undefined)),
+        .email('Email no válido'),
     notes: z
         .string()
         .max(500, 'Máximo 500 caracteres')

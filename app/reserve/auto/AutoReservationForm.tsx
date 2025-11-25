@@ -27,7 +27,7 @@ export function AutoReservationForm({ onSubmit }: Props) {
             people: Number(formData.get('people') || 0),
             name: String(formData.get('name') || ''),
             phone: (formData.get('phone') as string) || undefined,
-            email: (formData.get('email') as string) || undefined,
+            email: (formData.get('email') as string),
             notes: (formData.get('notes') as string) || undefined,
         };
 

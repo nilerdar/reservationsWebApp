@@ -1,14 +1,11 @@
 'use client';
-
+import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-    autoReservationSchema,
-    type AutoReservationInput,
-} from '@/lib/validation/reservation';
+import {autoReservationSchema} from '@/lib/validation/reservation';
 
 export function useAutoReservationForm() {
-    const form = useForm<AutoReservationInput>({
+    const form = useForm<z.input<typeof autoReservationSchema>>({
         resolver: zodResolver(autoReservationSchema),
         defaultValues: {
             date: '',
