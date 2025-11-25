@@ -1,6 +1,7 @@
 import { AutoReservationForm } from './AutoReservationForm';
 import { createAutoReservation } from './actions';
 import type { AutoReservationInput } from '@/lib/validation/reservation';
+import { Suspense } from "react";
 
 async function handleSubmitServer(values: AutoReservationInput) {
     'use server';
@@ -22,7 +23,9 @@ async function handleSubmitServer(values: AutoReservationInput) {
 export default function AutoReservationPage() {
     return (
         <main className="min-h-screen flex items-center justify-center bg-slate-50">
-            <AutoReservationForm onSubmit={handleSubmitServer} />
+            <Suspense fallback={<div>Cargando...</div>}>
+                <AutoReservationForm onSubmit={handleSubmitServer} />
+            </Suspense>
         </main>
     );
 }
